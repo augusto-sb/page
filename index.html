@@ -1,2 +1,64 @@
-<h1>asd</h1>
-<button onclick="alert('boob');">texto</button>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Measure BPM by tapping</title>
+	<script type="text/javascript">
+		var time, clicks=0;
+		function reset(){
+			clicks=0;
+			document.getElementById('boton').focus();
+			document.getElementById('texto').innerHTML = 'BPM: -';
+			document.getElementById('time_elapsed').innerHTML = 'Tiempo: 0';
+			document.getElementById('clic_count').innerHTML = 'Clicks: 0';
+		}
+		function mifun(){
+			if(clicks){
+				let aux = Date.now()-time;
+				document.getElementById('texto').innerHTML = 'BPM: ' + ~~((60000*clicks)/aux);
+				// div 60000 60*1000 miliseg a seg y seg a min
+				document.getElementById('time_elapsed').innerHTML = 'Tiempo: ' + aux.toLocaleString() + 'ms';
+				clicks++;
+				//increment after is important sino (clicks-1) en division
+				document.getElementById('clic_count').innerHTML = 'Clicks: ' + clicks;
+			}else{
+				time = Date.now();
+				clicks = 1;
+				document.getElementById('clic_count').innerHTML = 'Clicks: 1';
+			}
+		}
+	</script>
+	<style type="text/css">
+		html{
+			background-color: white;
+		}
+		body{
+			text-align: center;
+			width: 50%;
+			margin-top: 100px;
+			margin-left: auto;
+			margin-right: auto;
+			border: 2px solid orange;
+			border-radius: 10px;
+			background-color: aliceblue;
+		}
+		div{
+			width: 100%;
+		}
+		button{
+			margin-top: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div><button id="boton" onclick="mifun();">aprete enter!</button></div>
+	<div><button id="boton_reset" onclick="reset();">Reiniciar</button></div>
+	<h1 id="texto">BPM: -</h1>
+	<h1 id="clic_count">Clicks: 0</h1>
+	<h1 id="time_elapsed">Tiempo: 0</h1>
+</body>
+	<script type="text/javascript">
+		document.getElementById('boton').focus();
+	</script>
+</html>
